@@ -1,7 +1,7 @@
 const Engineer = require('../lib/Engineer');
 
 test('creates an engineer object', () => {
-    const engineer = new Engineer('github', 'role');
+    const engineer = new Engineer('github');
 
     expect(engineer.github).toEqual(expect.any(String));
     expect(engineer.role).toMatch('Engineer');

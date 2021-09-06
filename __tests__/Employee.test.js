@@ -1,22 +1,27 @@
 const Employee = require('../lib/Employee');
 
-jest.mock('../lib/Employee');
+// jest.mock('../lib/Employee');
 
-//tests for properties
+//tests for data types
 test('creates an employee object', () => {
-    const employee = new Employee();
+    const employee = new Employee('ruben', 'ruben@ruben.com');
 
+    expect(employee.getName()).toEqual("ruben")
+    expect(employee.getEmail()).toEqual("ruben@ruben.com")
     expect(employee.name).toEqual(expect.any(String));
     expect(employee.id).toEqual(expect.any(Number));
     expect(employee.email).toEqual(expect.any(String));
 })
 
 
-//tests for method values
-// test("gets employee's information as an object", () => {
-//     const employee = new Employee();
+// //tests for method values
+test("gets employee's information as an object", () => {
+    const employee = new Employee("Adriana N.", "itsmeadriana@gmail.com");
 
-//     expect(employee.getName()).toBeDefined();
-//     expect(employee.getId()).toHaveLength(3);
-//     expect(employee.getEmail()).toContain('@');
-// });
+    expect(employee).toHaveProperty('name');
+    expect(employee.getName()).toEqual('Adriana N.')
+    expect(employee.getId()).toEqual(expect.any(Number));
+    
+    expect(employee).toHaveProperty('email');
+    expect(employee.getEmail()).toEqual('itsmeadriana@gmail.com');
+})
