@@ -1,68 +1,26 @@
-const Team = require('../lib/Team.js');
 const Engineer = require("../lib/Engineer.js");
 const Intern = require("../lib/Intern.js");
 const Manager = require("../lib/Manager");
 
-const generateTeam = (input) => {
-    console.log(input);
-    return generateTeamName(input.teamName) +
-        generateEmployee(input.name, input.id, input.email) +
-        generateManager(input.role, input.officeNumber) +
-        generateEngineer(input.role, input.github) +
-        generateIntern(input.role, input.school)
-};
-
-// const employeeArray = ([
-//     (Manager = {
-//         name: 'employeeName',
-//         id: 'id',
-//         role: 'role',
-//         email: 'email',
-//         officeNumber: 'officeNumber'
-//     }),
-//     (Engineer = {
-//         name: 'employeeName',
-//         id: 'id',
-//         role: 'role',
-//         email: 'email',
-//         github: 'github'
-//     }),
-//     (Intern = {
-//         name: 'employeeName',
-//         id: 'id',
-//         role: 'role',
-//         email: 'email',
-//         school: 'school'
-//     })
-// ])
-
-Team.prototype.generateTeam = function(teamName) {
-    if (this.teamName != undefined) {
-        return `
-        <header class="" id="header">
-        <h1 class="">${teamName}</h1>
-      </header>
-        `
-    } else {
-        return `
-        <section class="" id="header">
-        <h1 class="">My Team</h1>
-      </section>`
-    }
-};
-
 const generateTeamName = teamName => {
     if (teamName != undefined) {
         return `
-        <header class="" id="header">
-        <h1 class="">${teamName}</h1>
-      </header>
+        <section class="hero is-primary" id="header">
+            <div class="hero-body">
+                <h1 class="title has-text-centered has-text-weight-bold">${teamName}</h1>
+            </div>
+        </section>
         `
     } else {
         return `
-        <section class="" id="header">
-        <h1 class="">My Team</h1>
-      </section>`
+        <section class="hero is-primary" id="header">
+            <div class="hero-body">
+                <h1 class="title has-text-centered has-text-weight-bold">My Team</h1>
+            </div>
+        </section>
+        
+        <section class="is-multiline columns is-centered is-mobile mt-6">
+        `
     }
 };
 
@@ -70,32 +28,37 @@ const generateManager = () => {
     return `${Manager}`
         .map(({ name, role, id, email, officeNumber }) => {
             return `
-    <section class="card" id="${id}">
-        <div class="card-header">
-            <h2>
-                ${name}
-            </h2>
-            <article class="role-section">
-                <h3> ${role}
-                </h3>
-                <img src="assets/images/manager"/>
-            </article>
-            <article class="card-body">
-                <div class="idNumber">
-                    ${id}
+                <div class="column is-inline-block is-narrow is-multiline">
+                <div class="card" id="${id}">
+                    <div class="card-header has-background-link">
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-left">
+                                <figure class="image is-48x48">
+                                    <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <p class="title is-4 has-text-white">${name}</p>
+                                <p class="subtitle is-6 has-text-white">${role}</p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                <div class="content pb-4">
+                    <ul>
+                        <li><strong>ID: </strong>${id}</li>
+                        <li><strong>Email: </strong>
+                            <a href="mailto:${email}?subject=Your%20employment&body=Dear%20${name}">
+                                ${email}
+                            </a>
+                        </li>
+                        <li><strong>Office Number: </strong>${officeNumber}</li>
+                    </ul>
                 </div>
-                <div class="officeNumber">
-                    ${officeNumber}
                 </div>
-                <div class="email">
-                    <a href="${email}">
-                        ${email}
-                    </a>
-                </div>
-            </article>
-        </div>
-    </section>
-    `
+            `
         })
 }
 
@@ -103,72 +66,113 @@ const generateEngineer = () => {
     return `${Engineer}`
         .map(({ name, role, id, email, github }) => {
             return `
-    <section class="card" id="${id}">
-        <div class="card-header">
-            <h2>
-                ${name}
-            </h2>
-            <article class="role-section">
-                <h3> ${role}
-                </h3>
-                <img src="assets/images/engineer"/>
-            </article>
-            <article class="card-body">
-                <div class="idNumber">
-                    ${id}
-                </div>
-                <div class="email">
-                    <a href="${email}">
-                        ${email}
-                    </a>
-                </div>
-                <div class="github">
-                    <a href="${github}">
-                        ${github}
-                    </a>
-                </div>
-            </article>
-        </div>
-    </section>
-    `
-        })
-};
+                <div class="column is-inline-block is-narrow is-multiline">
+                <div class="card" id="${id}">
+                    <div class="card-header has-background-link">
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-left">
+                                <figure class="image is-48x48">
+                                    <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <p class="title is-4 has-text-white">${name}</p>
+                                <p class="subtitle is-6 has-text-white">${role}</p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
 
-const generateIntern = () => {
-    return `
-        ${Intern}`
-        .map(({ name, id, role, email, school }) => {
-            return `
-            <section class="card" id="${id}">
-                <div class="card-header">
-                    <h2>
-                        ${name}
-                    </h2>
-                    <article class="role-section">
-                        <h3> ${role}
-                        </h3>
-                        <img src="assets/images/intern" />
-                    </article>
-                    <article class="card-body">
-                        <div class="idNumber">
-                            ${id}
-                        </div>
-                        <div class="school">
-                            ${school}
-                        </div>
-                        <div class="email">
-                            <a href="${email}">
-                                ${email}
-                            </a>
-                        </div>
-                        <div class="school">
-                            ${school}
-                        </div>
-                    </article>
+                    <div class="content pb-4">
+                        <ul>
+                            <li><strong>ID: </strong>${id}</li>
+                            <li><strong>Email: </strong>
+                                <a href="mailto:${email}?subject=Your%20employment&body=Dear%20${name}">
+                                    ${email}
+                                </a>
+                            </li>
+                            <li><strong>Github: </strong>
+                                <a href="${github}.github.com">
+                                    ${github}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </section>
             `
-    })
+        })
 }
 
-    module.exports = generateTeam
+const generateIntern = () => {
+    return `${Intern}`
+        .map(({ name, role, id, email, school }) => {
+            return `
+                <div class="column is-inline-block is-narrow is-multiline">
+                <div class="card" id="${id}">
+                    <div class="card-header has-background-link">
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-left">
+                                <figure class="image is-48x48">
+                                    <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <p class="title is-4 has-text-white">${name}</p>
+                                <p class="subtitle is-6 has-text-white">${role}</p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="content pb-4">
+                        <ul>
+                            <li><strong>ID: </strong>${id}</li>
+                            <li><strong>Email: </strong>
+                                <a href="mailto:${email}?subject=Your%20employment&body=Dear%20${name}">
+                                    ${email}
+                                </a>
+                            </li>
+                            <li><strong>School: </strong>
+                                ${school}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            `
+        })
+}
+
+
+module.exports = templateData => {
+
+        const { teamName, engineers, interns, managers } = templateData;
+        return `
+            <!DOCTYPE html>
+            <html lang="en">
+            
+            <head>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>My Team Profile</title>
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+            </head>
+
+            <body>
+                <header>${generateTeamName(teamName)}</header>
+                    <section>
+                    ${generateManager(managers)};
+                    ${generateEngineer(engineers)};
+                    ${generateIntern(interns)};
+            </body>
+            <footer class="footer mt-6">
+                <div class="content is-left">
+                    <p class="subtitle is-6>
+                        <strong>Profile</strong> by OOP Team Profile Generator
+                    </p> 
+                </div>
+            </footer>
+        `
+    }

@@ -1,4 +1,3 @@
-// inquirer prompts go here
 const inquirer = require('inquirer');
 const fs = require('fs');
 const generateTeam = require('./src/template.js');
@@ -6,8 +5,6 @@ const Manager = require('./lib/Manager.js');
 const Engineer = require('./lib/Engineer.js');
 const Intern = require('./lib/Intern.js');
 const Team = require('./lib/Team.js');
-const Employee = require('./lib/Employee.js');
-
 
 const promptTeamName = () => {
     console.log("Let's build a new team site!")
@@ -23,15 +20,15 @@ const promptTeamName = () => {
                     console.log('The generic "My Team" it is, then.');
                 }
             }
-        },
+        }
     ])
-        .then((teamName) => {
+        .then(({ teamName }) => {
             this.team = new Team(teamName);
             addEmployee();
         })
 };
 
-const addEmployee = () => {
+const addEmployee = (teamName) => {
     return inquirer.prompt([
         {
             type: 'input',
@@ -75,23 +72,24 @@ const addEmployee = () => {
         }
     ])
     .then(({ name, email, role }) => {
+        console.log(name)
         if (role === "Manager") {
-           const myManager = new Manager(name, email);
-           console.log(myManager);
-           addNewEmployee();
+            const myManager = new Manager(name, email);
+            this.team.addManager(myManager)
+            addNewEmployee();
         } 
         else if (role === "Engineer") {
-            generateEngineer();
+            generateEngineer(name, email);
         }
         else if (role === "Intern") {
-            generateIntern();
+            generateIntern(name, email);
         }
     })
 };
 
-const generateEngineer = () => {
-    inquirer
-            .prompt([{
+const generateEngineer = (name, email) => {
+    return inquirer
+            .prompt({
                 type: 'input',
                 name: 'github',
                 message: "Please enter this engineer's GitHub username.",
@@ -103,17 +101,17 @@ const generateEngineer = () => {
                         return false;
                     }
                 }
-            }])
-            .then(({ name, email}) => {
-                const newEngineer = new Engineer(name, email);
-                console.log(newEngineer);
+            })
+            .then(({ github }) => {
+                const newEngineer = new Engineer(name, email, github);
+                this.team.addEngineer(newEngineer);
                 addNewEmployee();
             })
 }
 
-const generateIntern = () => {
-    inquirer
-            .prompt([{
+const generateIntern = (name, email) => {
+    return inquirer
+            .prompt({
                 type: 'input',
                 name: 'school',
                 message: "Please enter this intern's school name.",
@@ -125,10 +123,10 @@ const generateIntern = () => {
                         return false;
                     }
                 }
-            }])
-            .then(({ name, email}) => {
-                const newIntern = new Intern(name, email);
-                console.log(newIntern);
+            })
+            .then(({ school }) => {
+                const newIntern = new Intern(name, email, school);
+                this.team.addIntern(newIntern);
                 addNewEmployee();
             })
 }
@@ -146,61 +144,29 @@ const addNewEmployee = () => {
             if (userAnswer.addNewEmployee === true) {
                 return addEmployee();
             } else {
-                return writeToFile();
+                console.log(this.team)
+                writeToFile();
             }
         })
 }
 
-const writeToFile = () => {
-    return new Promise((resolve, reject) => {
-        fs.writeFile("./dist/index2.html", err => {
+const writeToFile = (profileData) => {
+    const pageHTML = generateTeam(profileData);
+
+        fs.writeFile('./dist/index.html', pageHTML, err => {
             if (err) {
-                reject(err);
+                console.log(err);
                 return;
-            } resolve({
-                ok: true,
-                message: 'Your Team Profile has been generated!'
-            })
-        })
-    })
+            }
+            console.log('Page created! Check out index.html in this directory to see your Team Profile!');
+        });
 
 }
 
+// promptTeamName()
+    // .then(writeToFile())
+
 promptTeamName()
-    // // .then(addEmployee)
-    // // .then(getRole)
-    // // .then(addNewEmployee)
-    // .then(profileData => {
-    //     const pageHTML = generateTeam(profileData);
-
-    //     fs.writeFile('./dist/index2.html', pageHTML, err => {
-    //         if (err) {
-    //             console.log(err);
-    //             return;
-    //         }
-    //         console.log('Page created! Check out index2.html in this directory to see your Team Profile!');
-
-    //         fs.copyFile('./src/style.css', './dist/assets/css/stylesheet.css', err => {
-    //             if (err) {
-    //                 console.log(err);
-    //                 return;
-    //             }
-    //             console.log('Style sheet copied successfully!')
-    //         })
-    //     });
-    // }
-    // );
-
-// function initialize() {
-//     console.log("Let's build a new team site!")
-
-//     promptTeamName()
-//         .then((teamData) => {
-//             console.log(teamData);
-//             addNewEmployee();
-
-//             writeToFile("./dist/index2.html", teamData)
-//         })
-// }
-
-// initialize();
+    .then((assembledTeam) => {
+        
+    });
