@@ -13,22 +13,19 @@ const promptTeamName = () => {
             type: 'input',
             name: 'teamName',
             message: "What is your team's name?",
-            validate: teamName => {
-                if (teamName) {
-                    return true;
-                } else {
-                    console.log('The generic "My Team" it is, then.');
-                }
-            }
         }
     ])
         .then(({ teamName }) => {
-            this.team = new Team(teamName);
+            if (teamName === "") {
+                this.team = new Team("My Team Profile");
+            } else {
+                this.team = new Team(teamName);
+            }
             addEmployee();
         })
 };
 
-const addEmployee = (teamName) => {
+const addEmployee = () => {
     return inquirer.prompt([
         {
             type: 'input',
@@ -145,12 +142,13 @@ const addNewEmployee = () => {
                 return addEmployee();
             } else {
                 console.log(this.team)
-                writeToFile();
+                writeToFile(this.team);
             }
         })
 }
 
 const writeToFile = (profileData) => {
+    console.log(profileData)
     const pageHTML = generateTeam(profileData);
 
         fs.writeFile('./dist/index.html', pageHTML, err => {

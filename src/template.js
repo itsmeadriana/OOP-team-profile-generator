@@ -1,32 +1,15 @@
-const Engineer = require("../lib/Engineer.js");
-const Intern = require("../lib/Intern.js");
-const Manager = require("../lib/Manager");
-
 const generateTeamName = teamName => {
-    if (teamName != undefined) {
-        return `
+    return `
         <section class="hero is-primary" id="header">
             <div class="hero-body">
                 <h1 class="title has-text-centered has-text-weight-bold">${teamName}</h1>
             </div>
         </section>
         `
-    } else {
-        return `
-        <section class="hero is-primary" id="header">
-            <div class="hero-body">
-                <h1 class="title has-text-centered has-text-weight-bold">My Team</h1>
-            </div>
-        </section>
-        
-        <section class="is-multiline columns is-centered is-mobile mt-6">
-        `
-    }
 };
 
-const generateManager = () => {
-    return `${Manager}`
-        .map(({ name, role, id, email, officeNumber }) => {
+const generateManager = (managers) => {
+    return managers.map(({ name, role, id, email, officeNumber }) => {
             return `
                 <div class="column is-inline-block is-narrow is-multiline">
                 <div class="card" id="${id}">
@@ -46,7 +29,7 @@ const generateManager = () => {
                     </div>
                     </div>
 
-                <div class="content pb-4">
+                <div class="content mx-5 pb-5">
                     <ul>
                         <li><strong>ID: </strong>${id}</li>
                         <li><strong>Email: </strong>
@@ -62,9 +45,8 @@ const generateManager = () => {
         })
 }
 
-const generateEngineer = () => {
-    return `${Engineer}`
-        .map(({ name, role, id, email, github }) => {
+const generateEngineer = (engineers) => {
+    return engineers.map(({ name, role, id, email, github }) => {
             return `
                 <div class="column is-inline-block is-narrow is-multiline">
                 <div class="card" id="${id}">
@@ -84,7 +66,7 @@ const generateEngineer = () => {
                     </div>
                     </div>
 
-                    <div class="content pb-4">
+                    <div class="content mx-5 pb-5">
                         <ul>
                             <li><strong>ID: </strong>${id}</li>
                             <li><strong>Email: </strong>
@@ -104,9 +86,8 @@ const generateEngineer = () => {
         })
 }
 
-const generateIntern = () => {
-    return `${Intern}`
-        .map(({ name, role, id, email, school }) => {
+const generateIntern = (interns) => {
+    return interns.map(({ name, role, id, email, school }) => {
             return `
                 <div class="column is-inline-block is-narrow is-multiline">
                 <div class="card" id="${id}">
@@ -126,7 +107,7 @@ const generateIntern = () => {
                     </div>
                     </div>
 
-                    <div class="content pb-4">
+                    <div class="content mx-5 pb-5">
                         <ul>
                             <li><strong>ID: </strong>${id}</li>
                             <li><strong>Email: </strong>
@@ -148,6 +129,23 @@ const generateIntern = () => {
 module.exports = templateData => {
 
         const { teamName, engineers, interns, managers } = templateData;
+        console.log(managers)
+
+        let managerContent = ''
+        if (managers !== undefined) {
+            managerContent = generateManager(managers);
+        }
+
+        let engineerContent = ''
+        if (engineers !== undefined) {
+            engineerContent = generateEngineer(engineers);
+        }
+
+        let internContent = '';
+        if (interns !== undefined) {
+            internContent = generateIntern(interns);
+        }
+        
         return `
             <!DOCTYPE html>
             <html lang="en">
@@ -162,12 +160,16 @@ module.exports = templateData => {
 
             <body>
                 <header>${generateTeamName(teamName)}</header>
-                    <section>
-                    ${generateManager(managers)};
-                    ${generateEngineer(engineers)};
-                    ${generateIntern(interns)};
+                    <section class="mt-6">
+                        <div class="columns is-mobile is-centered">
+                            ${managerContent}
+                            ${engineerContent}
+                            ${internContent}
+                        </div>
+                    </section>
             </body>
-            <footer class="footer mt-6">
+
+            <footer class="footer is-full mt-6">
                 <div class="content is-left">
                     <p class="subtitle is-6>
                         <strong>Profile</strong> by OOP Team Profile Generator
