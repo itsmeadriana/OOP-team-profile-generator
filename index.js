@@ -137,7 +137,6 @@ const addNewEmployee = () => {
             default: false
         })
         .then((userAnswer) => {
-            console.log(userAnswer)
             if (userAnswer.addNewEmployee === true) {
                 return addEmployee();
             } else {

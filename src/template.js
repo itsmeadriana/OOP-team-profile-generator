@@ -2,7 +2,7 @@ const generateTeamName = teamName => {
     return `
         <section class="hero is-primary" id="header">
             <div class="hero-body">
-                <h1 class="title has-text-centered has-text-weight-bold">${teamName}</h1>
+                <h1 class="title is-size-1 is-size-2-mobile has-text-centered has-text-weight-bold">${teamName}</h1>
             </div>
         </section>
         `
@@ -11,7 +11,7 @@ const generateTeamName = teamName => {
 const generateManager = (managers) => {
     return managers.map(({ name, role, id, email, officeNumber }) => {
             return `
-                <div class="column is-inline-block is-narrow is-multiline">
+            <div class="column is-inline-block is-narrow ">
                 <div class="card" id="${id}">
                     <div class="card-header has-background-link">
                     <div class="card-content">
@@ -31,24 +31,25 @@ const generateManager = (managers) => {
 
                 <div class="content mx-5 pb-5">
                     <ul>
-                        <li><strong>ID: </strong>${id}</li>
-                        <li><strong>Email: </strong>
-                            <a href="mailto:${email}?subject=Your%20employment&body=Dear%20${name}">
+                        <dl><strong>ID: </strong>${id}</dl>
+                        <dl><strong>Email: </strong>
+                            <a href="mailto:${email}?subject=Your%20employment%20as%20${role}&body=Dear%20${name}">
                                 ${email}
                             </a>
-                        </li>
-                        <li><strong>Office Number: </strong>${officeNumber}</li>
+                        </dl>
+                        <dl><strong>Office Number: </strong>${officeNumber}</dl>
                     </ul>
                 </div>
                 </div>
-            `
-        })
+            </div>
+        `
+    })
 }
 
 const generateEngineer = (engineers) => {
     return engineers.map(({ name, role, id, email, github }) => {
             return `
-                <div class="column is-inline-block is-narrow is-multiline">
+            <div class="column is-inline-block is-narrow ">
                 <div class="card" id="${id}">
                     <div class="card-header has-background-link">
                     <div class="card-content">
@@ -68,28 +69,29 @@ const generateEngineer = (engineers) => {
 
                     <div class="content mx-5 pb-5">
                         <ul>
-                            <li><strong>ID: </strong>${id}</li>
-                            <li><strong>Email: </strong>
-                                <a href="mailto:${email}?subject=Your%20employment&body=Dear%20${name}">
+                            <dl><strong>ID: </strong>${id}</dl>
+                            <dl><strong>Email: </strong>
+                                <a href="mailto:${email}?subject=Your%20employment%20as%20${role}&body=Dear%20${name},">
                                     ${email}
                                 </a>
-                            </li>
-                            <li><strong>Github: </strong>
-                                <a href="${github}.github.com">
+                            </dl>
+                            <dl><strong>Github: </strong>
+                                <a href="https://www.github.com/${github}">
                                     ${github}
                                 </a>
-                            </li>
+                            </dl>
                         </ul>
                     </div>
                 </div>
-            `
-        })
+            </div>
+        `
+    })
 }
 
 const generateIntern = (interns) => {
     return interns.map(({ name, role, id, email, school }) => {
             return `
-                <div class="column is-inline-block is-narrow is-multiline">
+            <div class="column is-inline-block is-narrow">
                 <div class="card" id="${id}">
                     <div class="card-header has-background-link">
                     <div class="card-content">
@@ -100,7 +102,8 @@ const generateIntern = (interns) => {
                                 </figure>
                             </div>
                             <div class="media-content">
-                                <p class="title is-4 has-text-white">${name}</p>
+                                <p class="is-size-4 has-text-weight-semibold has-text-white">${name}</p> 
+                                <p class="is-size-7 is-italic has-text-white">${school}</p>
                                 <p class="subtitle is-6 has-text-white">${role}</p>
                             </div>
                         </div>
@@ -109,18 +112,16 @@ const generateIntern = (interns) => {
 
                     <div class="content mx-5 pb-5">
                         <ul>
-                            <li><strong>ID: </strong>${id}</li>
-                            <li><strong>Email: </strong>
-                                <a href="mailto:${email}?subject=Your%20employment&body=Dear%20${name}">
+                            <dl><strong>ID: </strong>${id}</dl>
+                            <dl><strong>Email: </strong>
+                                <a href="mailto:${email}?subject=Your%20internship%20via%20${school}&body=Dear%20${name}">
                                     ${email}
                                 </a>
-                            </li>
-                            <li><strong>School: </strong>
-                                ${school}
-                            </li>
+                            </dl>
                         </ul>
                     </div>
                 </div>
+            </div>
             `
         })
 }
@@ -129,7 +130,6 @@ const generateIntern = (interns) => {
 module.exports = templateData => {
 
         const { teamName, engineers, interns, managers } = templateData;
-        console.log(managers)
 
         let managerContent = ''
         if (managers !== undefined) {
@@ -161,7 +161,7 @@ module.exports = templateData => {
             <body>
                 <header>${generateTeamName(teamName)}</header>
                     <section class="mt-6">
-                        <div class="columns is-mobile is-centered">
+                        <div class="columns is-multiline is-centered is-mobile">
                             ${managerContent}
                             ${engineerContent}
                             ${internContent}
@@ -171,7 +171,7 @@ module.exports = templateData => {
 
             <footer class="footer is-full mt-6">
                 <div class="content is-left">
-                    <p class="subtitle is-6>
+                    <p class="subtitle is-6">
                         <strong>Profile</strong> by OOP Team Profile Generator
                     </p> 
                 </div>
