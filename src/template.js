@@ -71,7 +71,7 @@ const generateEngineer = (engineers) => {
                         <ul>
                             <dl><strong>ID: </strong>${id}</dl>
                             <dl><strong>Email: </strong>
-                                <a href="mailto:${email}?subject=Your%20employment%20as%20${role}&body=Dear%20${name},">
+                                <a href="mailto:${email}?subject=Your%20employment%20as%20${role}&body=Dear%20${name}">
                                     ${email}
                                 </a>
                             </dl>
